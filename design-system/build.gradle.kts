@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.gft.designsystemfoundation"
+    namespace = "com.gft.designsystem"
     compileSdk = 34
 
     defaultConfig {
@@ -52,7 +52,7 @@ mavenPublishing {
         )
     )
 
-    coordinates(project.property("libraryGroupId") as String, "designsystemfoundation", project.property("libraryVersion") as String)
+    coordinates(project.property("libraryGroupId") as String, "designsystem", project.property("libraryVersion") as String)
 
     pom {
         name.set(project.property("libraryName") as String)

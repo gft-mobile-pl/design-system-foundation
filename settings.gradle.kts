@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Design System Foundation"
 include(":design-system")
+include(":design-system-codegen")

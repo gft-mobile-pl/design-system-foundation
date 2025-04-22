@@ -1,1 +1,1 @@
-com.gft.designsystem.codegen.processor.GenerateStyleValuesProcessorProvider
+com.gft.designsystem.codegen.GenerateStyleValuesProcessorProvider

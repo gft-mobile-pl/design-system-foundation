@@ -1,4 +1,4 @@
-package com.gft.designsystem.codegen.annotation
+package com.gft.designsystem
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)

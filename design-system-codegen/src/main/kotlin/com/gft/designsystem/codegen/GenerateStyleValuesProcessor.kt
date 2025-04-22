@@ -1,9 +1,9 @@
-package com.gft.designsystem.codegen.processor
+package com.gft.designsystem.codegen
 
 import androidx.compose.runtime.Composable
+import com.gft.designsystem.GenerateStyleValues
 import com.gft.designsystem.StyleValues
 import com.gft.designsystem.Styles
-import com.gft.designsystem.codegen.annotation.GenerateStyleValues
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger

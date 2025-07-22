@@ -16,14 +16,14 @@ interface Typography
 interface Styles
 
 @Immutable
-open class DesignSystemElements<out ColorSchemeType : Colors, out TypographyType : Typography, out StylesType : Styles>(
+open class DesignSystemModules<out ColorSchemeType : Colors, out TypographyType : Typography, out StylesType : Styles>(
     val colors: ColorSchemeType,
     val typography: TypographyType,
     val styles: StylesType,
 )
 
-open class DesignSystemElementsProvider<ColorSchemeType : Colors, TypographyType : Typography, StylesType : Styles>(
-    private val localComposition: ProvidableCompositionLocal<out DesignSystemElements<ColorSchemeType, TypographyType, StylesType>>,
+open class DesignSystemModulesProvider<ColorSchemeType : Colors, TypographyType : Typography, StylesType : Styles>(
+    private val localComposition: ProvidableCompositionLocal<out DesignSystemModules<ColorSchemeType, TypographyType, StylesType>>,
 ) {
     val colors: ColorSchemeType
         @Composable @ReadOnlyComposable get() = localComposition.current.colors

@@ -5,10 +5,12 @@ mavenPublishVersion = "0.29.0"
 ksp = "1.9.24-1.0.20"
 poet = "2.0.0"
 compose = "1.7.3"
+concurrency = "1.0.0"
 
 [libraries]
 ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp" }
 kotlin-poet-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "poet" }
+concurrency = { group = "com.gft.mobile", name = "concurrency", version.ref = "concurrency" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

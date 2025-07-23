@@ -6,8 +6,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import java.util.WeakHashMap
-import java.util.concurrent.atomic.AtomicReference
+import com.gft.concurrency.Lock
+import com.gft.concurrency.withLock
 
 @Stable
 interface StyleValues
@@ -29,11 +29,21 @@ fun interface StyleValuesProducer<T : Style, R : StyleValues> {
     fun produce(style: T): R
 }
 
-@PublishedApi
-internal class StylesCache : MutableMap<Any, Any> by WeakHashMap()
+private class StyleContainer<T>(
+    var value: T,
+)
 
 @PublishedApi
-internal val LocalStylesCache = staticCompositionLocalOf { StylesCache() }
+internal expect class StyleValuesCache() {
+    @Composable
+    inline fun <T : Style, reified R : StyleValues> getOrCreate(
+        style: T,
+        styleValuesProducer: StyleValuesProducer<T, R>,
+    ): R
+}
+
+@PublishedApi
+internal val LocalStyleValuesCache = staticCompositionLocalOf { StyleValuesCache() }
 
 @Composable
 inline fun <T : Style, reified R : StyleValues> T.produceStyleValues(
@@ -46,17 +56,7 @@ inline fun <T : Style, reified R : StyleValues> T.produceStyleValues(
         UpdateLocalStyleCache(localStyleValuesCache) { styleValuesProducer.produce(this) }
         localStyleValuesCache.value!!
     } else {
-        val cache = LocalStylesCache.current
-        synchronized(cache) {
-            val cachedStyleValues = cache[this]
-            if (cachedStyleValues != null && cachedStyleValues is R) {
-                cachedStyleValues
-            } else {
-                val newStyleValues = styleValuesProducer.produce(this)
-                cache[this] = newStyleValues
-                newStyleValues
-            }
-        }
+        LocalStyleValuesCache.current.getOrCreate(this, styleValuesProducer)
     }
 }
 
@@ -72,12 +72,13 @@ internal fun <T : StyleValues> UpdateLocalStyleCache(
 @Composable
 fun <T : Style> rememberStyle(
     vararg keys: Any?,
-    styleProducer: StyleProducer<T>
+    styleProducer: StyleProducer<T>,
 ): T {
-    val styleReference = remember(*keys) {
-        AtomicReference<T?>(null)
+    val (styleReference, lock) = remember(*keys) {
+        StyleContainer<T?>(null) to Lock()
     }
-    return styleReference.get() ?: synchronized(styleReference) {
-        styleReference.get() ?: styleProducer.produce().apply { styleReference.set(this) }
+
+    return styleReference.value ?: lock.withLock {
+        styleReference.value ?: styleProducer.produce().apply { styleReference.value = this }
     }
 }

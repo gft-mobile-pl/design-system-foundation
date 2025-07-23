@@ -1,20 +1,38 @@
 import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.compose)
 }
 
-java {
-    sourceCompatibility = Java.sourceCompatibility
-    targetCompatibility = Java.targetCompatibility
-}
-
 kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.fromTarget(Java.jvmTarget)
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = Java.jvmTarget
+            }
+        }
+    }
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.ksp.api)
+                implementation(libs.kotlin.poet.ksp)
+            }
+        }
+
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(project(":design-system"))
+            }
+        }
     }
 }
 
@@ -50,11 +68,4 @@ mavenPublishing {
     }
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
-}
-
-dependencies {
-    implementation(compose.runtime)
-    implementation(libs.ksp.api)
-    implementation(libs.kotlin.poet.ksp)
-    implementation(project(":design-system"))
 }

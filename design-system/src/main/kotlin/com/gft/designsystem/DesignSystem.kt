@@ -10,7 +10,7 @@ fun DesignSystem(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalStylesCache provides StylesCache(),
+        LocalStyleValuesCache provides StyleValuesCache(),
         content = content
     )
 }

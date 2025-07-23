@@ -3,6 +3,7 @@ package com.gft.designsystem.codegen
 import androidx.compose.runtime.Composable
 import com.gft.designsystem.GenerateStyleValues
 import com.gft.designsystem.StyleValues
+import com.gft.designsystem.StyleValuesProducer
 import com.gft.designsystem.Styles
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
@@ -58,13 +59,17 @@ internal class GenerateStyleValuesProcessor(
                 .build()
 
             val generatedClassName = ClassName(packageName, generatedName)
+            val receiverClassName = ClassName(packageName, name)
+            val producerClassName = ClassName(StyleValuesProducer::class.java.`package`.name, StyleValuesProducer::class.java.simpleName)
             val funSpec = FunSpec.builder(RESOLVE_STYLE_VALUES_METHOD_NAME)
                 .addAnnotation(Composable::class)
-                .receiver(ClassName(packageName, name))
+                .receiver(receiverClassName)
                 .returns(generatedClassName)
                 .addCode(
                     CodeBlock.builder()
-                        .add("return $PRODUCE_STYLE_VALUES_METHOD_NAME { style ->\n")
+                        .add("return $PRODUCE_STYLE_VALUES_METHOD_NAME(\n")
+                        .indent()
+                        .add("%T<%T, %T> { style: %T ->\n", producerClassName, receiverClassName, generatedClassName, receiverClassName)
                         .indent()
                         .add("object : %T {\n", generatedClassName)
                         .indent()
@@ -83,7 +88,9 @@ internal class GenerateStyleValuesProcessor(
                         .unindent()
                         .add("}\n")
                         .unindent()
-                        .add("}")
+                        .add("}\n")
+                        .unindent()
+                        .add(")")
                         .build()
                 )
                 .build()

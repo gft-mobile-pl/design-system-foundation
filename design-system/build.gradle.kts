@@ -15,10 +15,15 @@ kotlin {
         }
     }
 
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+                implementation(libs.concurrency)
             }
             kotlin.srcDir("src/main/kotlin")
         }

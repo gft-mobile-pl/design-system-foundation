@@ -17,6 +17,18 @@ interface Style
 
 interface DynamicStyle : Style
 
+@Stable
+fun interface StyleProducer<T : Style> {
+    @Composable
+    fun produce(): T
+}
+
+@Stable
+fun interface StyleValuesProducer<T : Style, R : StyleValues> {
+    @Composable
+    fun produce(style: T): R
+}
+
 @PublishedApi
 internal class StylesCache : MutableMap<Any, Any> by WeakHashMap()
 
@@ -24,25 +36,25 @@ internal class StylesCache : MutableMap<Any, Any> by WeakHashMap()
 internal val LocalStylesCache = staticCompositionLocalOf { StylesCache() }
 
 @Composable
-inline fun <reified T : StyleValues, R : Style> R.produceStyleValues(
-    noinline styleProducer: @Composable (R) -> T,
-): T {
+inline fun <T : Style, reified R : StyleValues> T.produceStyleValues(
+    styleValuesProducer: StyleValuesProducer<T, R>,
+): R {
     return if (this is DynamicStyle) {
-        val localStyleCache = remember(this) {
-            mutableStateOf<T?>(null)
+        val localStyleValuesCache = remember(this) {
+            mutableStateOf<R?>(null)
         }
-        UpdateLocalStyleCache(localStyleCache) { styleProducer(this) }
-        localStyleCache.value!!
+        UpdateLocalStyleCache(localStyleValuesCache) { styleValuesProducer.produce(this) }
+        localStyleValuesCache.value!!
     } else {
         val cache = LocalStylesCache.current
         synchronized(cache) {
-            val cachedStyle = cache[this]
-            if (cachedStyle != null && cachedStyle is T) {
-                cachedStyle
+            val cachedStyleValues = cache[this]
+            if (cachedStyleValues != null && cachedStyleValues is R) {
+                cachedStyleValues
             } else {
-                val newStyle = styleProducer(this)
-                cache[this] = newStyle
-                newStyle
+                val newStyleValues = styleValuesProducer.produce(this)
+                cache[this] = newStyleValues
+                newStyleValues
             }
         }
     }
@@ -51,21 +63,21 @@ inline fun <reified T : StyleValues, R : Style> R.produceStyleValues(
 @PublishedApi
 @Composable
 internal fun <T : StyleValues> UpdateLocalStyleCache(
-    localStyleCache: MutableState<T?>,
-    styleProducer: @Composable () -> T,
+    localStyleValuesCache: MutableState<T?>,
+    styleValuesProducer: @Composable () -> T,
 ) {
-    localStyleCache.value = styleProducer()
+    localStyleValuesCache.value = styleValuesProducer()
 }
 
 @Composable
 fun <T : Style> rememberStyle(
     vararg keys: Any?,
-    styleProducer: @Composable () -> T
+    styleProducer: StyleProducer<T>
 ): T {
     val styleReference = remember(*keys) {
         AtomicReference<T?>(null)
     }
     return styleReference.get() ?: synchronized(styleReference) {
-        styleReference.get() ?: styleProducer().apply { styleReference.set(this) }
+        styleReference.get() ?: styleProducer.produce().apply { styleReference.set(this) }
     }
 }

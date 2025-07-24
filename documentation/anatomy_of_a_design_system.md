@@ -23,13 +23,13 @@ A typical design system built on top of Design System Foundation consists of two
 
 In Design System Foundation, the design token repository exposes a set of `Modules`, which can contain tokens, `Styles`, or any other arbitrary data.
 Three module types are supported out of the box:
-- a container for colors,
-- a container for typography,
+- a container for design tokens describing colors,
+- a container for design tokens describing typography,
 - a container for Styles.
 
 Additional `Modules` can be added as needed, and any unused `Modules` can be hidden.
 From Kotlin's perspective, a Module can be an instance of any type. By convention, however, Modules are plain Kotlin objects (POJOs) whose fields contain either tokens or `Styles`.
-More information on declaring and managing modules can be found in the [How to implement a design system with Design System Foundation](/how-to-implement-design-system.md) section.
+More information on declaring and managing modules can be found in the [How to implement a design system with Design System Foundation](/documentation/how-to-implement-design-system.md) section.
 
 Together, `Modules`, `Styles`, and tokens form a hierarchical structure, for example:
 ```
@@ -97,11 +97,18 @@ interface ButtonStyle : Style {
     val textColor: Token<Color>    
 }
 ```
-For further details on defining tokens, please refer to the [How to implement a design system with Design System Foundation](/how-to-implement-design-system.md) section of the documentation.
+For further details on defining tokens, please refer to the [How to implement a design system with Design System Foundation](/documentation/how-to-implement-design-system.md) section of the documentation.
 
 ### Token types
-Material Design 3 introduces a useful, purely conceptual distinction between different types of tokens.
-1. **Value tokens (aka reference tokens)**
+
+A large portion of design systems introduces a purely conceptual distinction between types of tokens, which makes them easier to manage — especially across different contexts (like light and dark theme).
+Although different systems may use different terminology, the overall categorization tends to be quite similar.
+
+> 💡 For a more in-depth understanding of design token categorization, including illustrative examples, refer to the following articles.
+> - Figma: [Update 1: Tokens, variables, and styles](https://help.figma.com/hc/en-us/articles/18490793776023-Update-1-Tokens-variables-and-styles#token-organization)
+> - Material Design 3: [Classes of tokens](https://m3.material.io/foundations/design-tokens/overview#c2c235dd-05db-4248-be47-48dfd8a21669) 
+
+1. **Value tokens (aka reference tokens / primitive tokens / global tokens)**
 
    These are the tokens that point to static values such as a color hex code or font size, but can also point to another token. 
    The most important characteristic of values tokens is that they never change depending on the context (e.g. Light/Dark theme).
@@ -135,7 +142,7 @@ Material Design 3 introduces a useful, purely conceptual distinction between dif
    > However, in the context of design systems, `reference` simply means that the token holds a reusable reference value, such as a specific color or size.
    > To avoid this ambiguity, the term `value token` is often preferred. 
 
-2. **System tokens**
+2. **System tokens (aka semantic tokens)**
 
    System tokens in are tokens that represent semantic roles within a design system, such as `primary`, `onBackground`, or `titleLarge`. 
    They adapt to different contexts (e.g. light/dark themes) and are usually mapped to value tokens (rarely to hardcoded values), e.g.
@@ -219,5 +226,5 @@ open class DefaultIconButtonStyle : IconButtonStyle {
 
 Usually all `Styles` are grouped withing a single `Module` (see [Modules](#Modules)).
 
-Refer to [How to implement a design system with Design System Foundation](/how-to-implement-design-system.md) for guidelines on declaring, defining and overriding `Styles`.
+Refer to [How to implement a design system with Design System Foundation](/documentation/how-to-implement-design-system.md) for guidelines on declaring, defining and overriding `Styles`.
 This section also covers the usage of the `Token<T>` wrapper.

@@ -1,15 +1,12 @@
 package com.gft.designsystem
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import com.gft.concurrency.Lock
 import com.gft.concurrency.withLock
 
-@Stable
 interface Module {
 
     @ModuleInitialization
@@ -17,16 +14,12 @@ interface Module {
     fun initialize() = Unit
 }
 
-@Immutable
 interface Colors : Module
 
-@Immutable
 interface Typography : Module
 
-@Stable
 interface Styles : Module
 
-@Immutable
 open class DesignSystemModules<out ColorSchemeType : Colors, out TypographyType : Typography, out StylesType : Styles>(
     val colors: ColorSchemeType,
     val typography: TypographyType,
@@ -79,7 +72,6 @@ open class DesignSystemModules<out ColorSchemeType : Colors, out TypographyType 
     )
 }
 
-@Stable
 open class DesignSystemModulesProvider<ColorSchemeType : Colors, TypographyType : Typography, StylesType : Styles>(
     private val localComposition: ProvidableCompositionLocal<out DesignSystemModules<ColorSchemeType, TypographyType, StylesType>>,
 ) {

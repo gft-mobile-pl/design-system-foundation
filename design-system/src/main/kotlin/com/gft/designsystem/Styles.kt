@@ -2,28 +2,23 @@ package com.gft.designsystem
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.gft.concurrency.Lock
 import com.gft.concurrency.withLock
 
-@Stable
 interface StyleValues
 
-@Stable
 interface Style
 
 interface DynamicStyle : Style
 
-@Stable
 fun interface StyleProducer<T : Style> {
     @Composable
     fun produce(): T
 }
 
-@Stable
 fun interface StyleValuesProducer<T : Style, R : StyleValues> {
     @Composable
     fun produce(style: T): R

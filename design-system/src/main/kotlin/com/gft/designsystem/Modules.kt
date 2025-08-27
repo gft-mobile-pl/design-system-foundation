@@ -79,6 +79,7 @@ open class DesignSystemModules<out ColorSchemeType : Colors, out TypographyType 
     )
 }
 
+@Stable
 open class DesignSystemModulesProvider<ColorSchemeType : Colors, TypographyType : Typography, StylesType : Styles>(
     private val localComposition: ProvidableCompositionLocal<out DesignSystemModules<ColorSchemeType, TypographyType, StylesType>>,
 ) {

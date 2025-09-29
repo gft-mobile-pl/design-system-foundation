@@ -1,43 +1,43 @@
-# Defining value tokens (reference tokens)
+# Defining _value tokens_ (reference tokens)
 
 Typically, when UX designers begin working on a design system, they select a limited set of colors, spacing values, 
-and fonts that will be used. These decisions are documented in the form of value tokens (also known as reference tokens).
+and fonts that will be used. These decisions are documented in the form of _value tokens_ (also known as _reference tokens_).
 At this stage, the appearance of specific components or screens is not yet defined — the purpose of creating a constrained set of potential or acceptable values is to help maintain visual consistency throughout the design process.
-> 💡 It’s rarely possible to anticipate everything at this point, so the set of `value tokens` often undergoes multiple revisions during the component development phase or while designing individual screens of the application.  
+> 💡 It’s rarely possible to anticipate everything at this point, so the set of _value tokens_ often undergoes multiple revisions during the component development phase or while designing individual screens of the application.  
 
-Important notes on value tokens:
+Important notes on _value tokens_:
 
-1. Once defined, value tokens should not change their values.
+1. Once defined, _value tokens_ should not change their values.
 
-   For example, when the color of a visual element needs to change, it usually involves referencing a different value token rather than modifying the existing one.
+   For example, when the color of a visual element needs to change, it usually involves referencing a different _value token_ rather than modifying the existing one.
 
-2. Value token names should not imply their intended usage.
+2. _Value token_ names should not imply their intended usage.
 
-   A common mistake is naming value tokens that define dominant colors as `primaryColor0`, `primaryColor10` … `primaryColor100`.
+   A common mistake is naming _value tokens_ that define dominant colors as `primaryColor0`, `primaryColor10` … `primaryColor100`.
    This approach is flawed because the primary color may vary depending on the context — for example,
    some sections of the application might use a completely different primary color. Likewise, the primary color may differ in dark mode.
 
-   Assigning semantic roles to colors is the responsibility of system tokens, as described in [Defining the set of system tokens](/documentation/how-to-implement-design-system-system-tokens.md).
+   Assigning semantic roles to colors is the responsibility of _system tokens_, as described in [Defining the set of system tokens](/documentation/how-to-implement-design-system-system-tokens.md).
 
-   > 💡 The general naming rule for `value tokens` is that their names should describe the visual appearance of the value.
+   > 💡 The general naming rule for _value tokens_ is that their names should describe the visual appearance of the value.
 
-3. Value tokens should remain consistent across all tools used in the design process.
+3. _Value tokens_ should remain consistent across all tools used in the design process.
 
    The first iterations of a design system are usually created using tools like Figma or Zeplin.
-   Although such tools typically support defining both value tokens and system tokens,
+   Although such tools typically support defining both _value tokens_ and _system tokens_,
    UX designers often omit one of these categories or merge their responsibilities in practice.   
    A short guide on mapping token names between tools like Figma and the Compose implementation can be found [here](/documentation/token-names-mapping.md).
 
-4. Value tokens should generally remain internal to the module that defines the design system.
+4. _Value tokens_ should generally remain internal to the module that defines the design system.
 
    This can be enforced using the `internal` access modifier.
 
-5. Not all value tokens need to be used in every context.
+5. Not all _value tokens_ need to be used in every context.
 
-6. Not all defined value tokens have to be used in the current version of the design system.
+6. Not all defined _value tokens_ have to be used in the current version of the design system.
 
 
-## Color scheme
+## Colors
 
 Most often, the color scheme of a design system is based on:
 - one or two dominant colors, typically used in various intensities,
@@ -50,7 +50,7 @@ For example, a company might use the color `0xff1A377A` in its visual identity, 
 which is intended to be the dominant color in the application. Additionally, there's a requirement for the section of the app involving sensitive operations (such as account deletion) 
 to be presented in shades of red. All links should appear in blue, using a color named `Sky Blue`. The remaining visual elements are styled using various shades of warm gray.
 
-These decisions can be expressed as a set of value tokens:
+These decisions can be expressed as a set of _value tokens_:
 
 ```kotlin
 internal object ExampleThemeReferenceColors {
@@ -114,7 +114,7 @@ A common decision is to limit the number of available options for element sizes 
 Defining a list of allowed sizes before component design begins helps maintain consistency across the entire system.
 
 > 💡 The most frequent challenge is keeping the UX team disciplined — it’s usually inevitable that some values outside the predefined set will occasionally be used.
-> If a particular size is used only in exceptional cases, for example on a single screen, it’s not worth creating a value token or a design token for it.
+> If a particular size is used only in exceptional cases, for example on a single screen, it’s not worth creating a _value token_ or a design token for it.
 
 ```kotlin
 internal object ExampleThemeReferenceDimensions {
@@ -144,7 +144,7 @@ internal object ExampleThemeReferenceDimensions {
 > 2. It may be tempting to adjust the token’s value to better fit a specific component, but this can inadvertently affect the appearance of many other components. 
 >    To change a component’s appearance, it is better to assign a different dimension token in that component’s style instead.
 >
->    Modifying a value token in this way also contradicts the principle that value tokens should generally remain stable over time.
+>    Modifying a _value token_ in this way also contradicts the principle that _value tokens_ should generally remain stable over time.
 
 ## Typography
 

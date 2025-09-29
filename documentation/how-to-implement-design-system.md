@@ -4,7 +4,7 @@ Creating a design system is a complex process that requires close collaboration 
 The individual steps in this process do not always follow the order presented in this document and are often repeated multiple times — due to changes in requirements, incorrect use of design tokens, or efforts to resolve inconsistencies within the system.
 Nevertheless, the process of building a design system can roughly be divided into the following stages:
 1. [Preparing a set of value tokens (aka reference tokens)](/documentation/how-to-implement-design-system-reference-tokens.md).
-2. Defining the set of system tokens.
+2. [Defining the set of system tokens](/documentation/how-to-implement-design-system-system-tokens.md).
 3. Designing components and deciding which of their properties should be stylable.
 
 Follow the corresponding links for a detailed description of each step.

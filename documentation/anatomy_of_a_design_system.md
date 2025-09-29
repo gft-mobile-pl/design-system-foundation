@@ -115,7 +115,7 @@ Although different systems may use different terminology, the overall categoriza
    > 💡 Value tokens can also be thought of as the full set of predefined style options from which a design system is built. 
    > By constraining the available values, they help ensure visual consistency across the entire UI.
    
-   Examples of value tokens:
+   Examples of _value tokens_:
    ```kotlin
    internal object MobiusReferenceColors { 
       val RoyalBlue0 = Color(0xff000000)
@@ -133,19 +133,19 @@ Although different systems may use different terminology, the overall categoriza
       val Dimension128 = 128.dp
    }
    ```
-   > ❗ A common mistake is treating the `primary color` as a value token and defining tokens like `primary0`, `primary100`... `primary900`. 
+   > ❗ A common mistake is treating the `primary color` as a _value token_ and defining tokens like `primary0`, `primary100`... `primary900`. 
    > However, the `primary color` may change depending on the context (e.g. when a dark theme is applied).
    > 
    > Even Material Design 3 is not free from this misconception.
    
    > 💡 The term `reference token` can be confusing from a developer's perspective, as it may suggest a reference to an object or memory address.
    > However, in the context of design systems, `reference` simply means that the token holds a reusable reference value, such as a specific color or size.
-   > To avoid this ambiguity, the term `value token` is often preferred. 
+   > To avoid this ambiguity, the term _value token_ is often preferred. 
 
 2. **System tokens (aka semantic tokens)**
 
    System tokens in are tokens that represent semantic roles within a design system, such as `primary`, `onBackground`, or `titleLarge`. 
-   They adapt to different contexts (e.g. light/dark themes) and are usually mapped to value tokens (rarely to hardcoded values), e.g.
+   They adapt to different contexts (e.g. light/dark themes) and are usually mapped to _value tokens_ (rarely to hardcoded values), e.g.
    ```kotlin
    open class MobiusLightColors : MobiusColors {
       override val primary: Color = MobiusReferenceColors.RoyalBlue20

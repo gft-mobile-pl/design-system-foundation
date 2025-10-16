@@ -1,1 +1,2 @@
 com.gft.designsystem.codegen.GenerateStyleValuesProcessorProvider
+com.gft.designsystem.codegen.GenerateStyleWrapperProcessorProvider

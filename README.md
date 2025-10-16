@@ -24,11 +24,11 @@ The documentation is divided into two parts — the first outlines the general p
 
 Add the following line to your `build.gradle` file to include Design System Foundation in your project:
 ```groovy
-implementation("com.gft.mobile:design-system:0.1.1")
+implementation("com.gft.mobile:design-system:0.5.0")
 ```
 To enable automatic `StyleValues` generation with `@GenerateStyleValues`, also add
 ```groovy
-ksp("com.gft.mobile:design-system-codegen:0.1.1")
+ksp("com.gft.mobile:design-system-codegen:0.5.0")
 ```
 and configure KSP in your project.
 

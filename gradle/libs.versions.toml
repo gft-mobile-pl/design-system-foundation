@@ -1,22 +1,29 @@
 [versions]
-agp = "8.4.2"
-kotlin = "1.9.24"
-mavenPublishVersion = "0.29.0"
-ksp = "1.9.24-1.0.20"
-poet = "2.0.0"
-compose = "1.7.3"
+# Build toolchain
+kotlin = "2.4.21"
+maven-publish = "0.37.0"
+
+# Code generation
+ksp = "2.3.14"
+kotlinpoet = "2.4.0"
+
+# Multiplatform libraries
+jetbrains-compose = "1.12.2"
 concurrency = "1.0.0"
 
 [libraries]
-ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp" }
-kotlin-poet-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "poet" }
-concurrency = { group = "com.gft.mobile", name = "concurrency", version.ref = "concurrency" }
+
+# Compose Multiplatform
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
+
+# Code generation
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
+
+# Multiplatform concurrency
+concurrency = { module = "com.gft.mobile:concurrency", version.ref = "concurrency" }
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "agp" }
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublishVersion" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

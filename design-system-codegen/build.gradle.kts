@@ -1,43 +1,31 @@
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.maven.publish)
-    alias(libs.plugins.compose)
 }
 
 kotlin {
     jvm {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = Java.jvmTarget
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(Java.jvmTarget))
         }
     }
 
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.ksp.api)
-                implementation(libs.kotlin.poet.ksp)
-            }
+        jvmMain.dependencies {
+            implementation(libs.ksp.api)
+            implementation(libs.kotlin.poet.ksp)
         }
 
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(project(":design-system"))
-            }
+        commonMain.dependencies {
+            implementation(libs.compose.runtime)
+            implementation(project(":design-system"))
         }
     }
-}
-
-compose {
-    kotlinCompilerPlugin.set(Compose.kotlinCompilerPlugin)
 }
 
 mavenPublishing {
@@ -66,6 +54,6 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://git@${project.property("libraryRepositoryUrl") as String}.git")
         }
     }
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     signAllPublications()
 }
